@@ -18,7 +18,7 @@ const getHeaders = () => {
 const cache = new InMemoryCache();
 
 const wsLink = process.browser ? new WebSocketLink({
-  uri: "ws://hasura-midcodes1.herokuapp.com/v1/graphql",
+  uri: "wss://hasura-midcodes1.herokuapp.com/v1/graphql",
   options: {
     reconnect: true,
     lazy: true,

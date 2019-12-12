@@ -1,0 +1,42 @@
+
+          final WebSocketLink websocketLink = WebSocketLink(
+            url: 'ws://192.168.254.113:9080/v1alpha1/graphql',
+            headers: {'Authorization': 'Bearer ${token.data}'},
+            config: SocketClientConfig(
+                autoReconnect: true,
+                inactivityTimeout: Duration(seconds: 15),
+                initPayload: {
+                  'headers': json.encode({
+                    'Authorization': 'Bearer ${token.data}',
+                    'content-type': "application/json"
+                  })
+                }),
+          );
+
+function connect() {
+  var ws = new WebSocket('ws://localhost:8080');
+  ws.onopen = function() {
+    // subscribe to some channels
+    ws.send(JSON.stringify({
+        //.... some message the I must send when I connect ....
+    }));
+  };
+
+  ws.onmessage = function(e) {
+    console.log('Message:', e.data);
+  };
+
+  ws.onclose = function(e) {
+    console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+    setTimeout(function() {
+      connect();
+    }, 1000);
+  };
+
+  ws.onerror = function(err) {
+    console.error('Socket encountered error: ', err.message, 'Closing socket');
+    ws.close();
+  };
+}
+
+connect();

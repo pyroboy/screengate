@@ -8,4 +8,5 @@ yarn-error.log
 .env.build
 rat
 node_modules
-__sapper__
+scanserver.py
+websocketconnect.py
