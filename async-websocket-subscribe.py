@@ -3,12 +3,11 @@ import string
 import random
 import json
 import time
-import threading
 import asyncio
 from websockets import connect
-import websocket
+#import websocket
 import time
-
+#import pdb; pdb.set_trace()
 
 class GraphQLClient:
     def connect(self,url,headers = None):
@@ -19,8 +18,6 @@ class GraphQLClient:
         print("Connecting")
         self._conn = connect(self.ws_url,subprotocols=['graphql-ws'])
         self.websocket = await self._conn.__aenter__()   
-        self._subscription_running = False #OK
-       
         print("connection done")
         payload = {
             'type': 'connection_init',
