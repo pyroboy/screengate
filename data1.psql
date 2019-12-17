@@ -1,0 +1,176 @@
+
+BEGIN;
+
+CREATE TYPE "person_types" AS ENUM (
+  'student',
+  'teacher',
+  'employee',
+  'admin'
+);
+
+CREATE TYPE "relationship_types" AS ENUM (
+  'mother',
+  'father',
+  'guardian'
+);
+
+CREATE TABLE "authorized" (
+  "id" serial PRIMARY KEY,
+  "username" varchar(255),
+  "password" varchar(255),
+  "email" varchar(255)
+);
+
+CREATE TABLE "person" (
+  "id" serial PRIMARY KEY,
+  "id_number" varchar NOT NULL,
+  "person_type" person_types NOT NULL,
+  "picture" varchar,
+  "first_name" varchar(50) NOT NULL,
+  "middle_name" varchar(50),
+  "last_name" varchar(50) NOT NULL,
+  "suffix" varchar(30),
+  "full_name" varchar,
+  "birthday" date,
+  "contacts" varchar,
+  "phone_number" varchar,
+  "address" varchar,
+  "created_at" timestamp with time zone DEFAULT now() NOT NULL,
+  "updated_at" timestamp with time zone NOT NULL
+);
+
+CREATE TABLE "student" (
+  "id" serial PRIMARY KEY,
+  "person_id" serial,
+  "grade_id" serial
+);
+
+CREATE TABLE "grade" (
+  "id" serial PRIMARY KEY,
+  "student_id" serial UNIQUE NOT NULL,
+  "name" varchar(50),
+  "created_at" timestamp with time zone DEFAULT now() NOT NULL
+);
+
+CREATE TABLE "teacher" (
+  "id" serial PRIMARY KEY,
+  "person_id" serial,
+  "position" varchar
+);
+
+CREATE TABLE "employee" (
+  "id" serial PRIMARY KEY,
+  "person_id" serial,
+  "position" varchar
+);
+
+CREATE TABLE "parent" (
+  "id" serial PRIMARY KEY,
+  "person_id" serial,
+  "created_at" timestamp with time zone DEFAULT now() NOT NULL
+);
+
+CREATE TABLE "contact_list" (
+  "id" serial PRIMARY KEY,
+  "student_id" serial UNIQUE NOT NULL,
+  "contact_id" serial UNIQUE NOT NULL
+);
+
+CREATE TABLE "contact" (
+  "id" serial PRIMARY KEY,
+  "person_id" serial,
+  "is_subscribed" bool,
+  "relationship_type" relationship_types NOT NULL,
+  "created_at" timestamp with time zone DEFAULT now() NOT NULL
+);
+
+CREATE TABLE "gate" (
+  "id" serial PRIMARY KEY,
+  "name" varchar,
+  "devices" json
+);
+
+CREATE TABLE "device" (
+  "id" serial PRIMARY KEY,
+  "name" varchar,
+  "holder_id" serial
+);
+
+CREATE TABLE "notifications" (
+  "id" serial PRIMARY KEY,
+  "scan_id" int UNIQUE NOT NULL,
+  "contact_id" serial,
+  "notification_content" varchar,
+  "created_at" timestamp with time zone DEFAULT now() NOT NULL
+);
+
+CREATE TABLE "scan" (
+  "id" serial PRIMARY KEY,
+  "data" varchar
+);
+
+CREATE TABLE "scan_person" (
+  "scan_id" serial,
+  "id_number" varchar,
+  "person_id" serial,
+  "device_id" serial,
+  "gate_id" serial,
+  "contact_id" serial,
+  "designation" boolean DEFAULT 'yes',
+  "created_at" timestamp with time zone DEFAULT now() NOT NULL
+);
+
+CREATE TABLE "sms_counter" (
+  "id" serial PRIMARY KEY,
+  "smsc" varchar,
+  "count" int
+);
+
+CREATE TABLE "sms" (
+  "id" serial PRIMARY KEY,
+  "smsc" varchar,
+  "to" varchar,
+  "from" varchar,
+  "status" varchar,
+  "content" varchar
+);
+
+ALTER TABLE "scan_person" ADD FOREIGN KEY ("scan_id") REFERENCES "scan" ("id");
+
+ALTER TABLE "scan_person" ADD FOREIGN KEY ("person_id") REFERENCES "person" ("id");
+
+ALTER TABLE "scan_person" ADD FOREIGN KEY ("device_id") REFERENCES "device" ("id");
+
+ALTER TABLE "scan_person" ADD FOREIGN KEY ("gate_id") REFERENCES "gate" ("id");
+
+ALTER TABLE "scan_person" ADD FOREIGN KEY ("contact_id") REFERENCES "contact" ("id");
+
+ALTER TABLE "contact" ADD FOREIGN KEY ("id") REFERENCES "contact_list" ("contact_id");
+
+ALTER TABLE "student" ADD FOREIGN KEY ("id") REFERENCES "contact_list" ("student_id");
+
+ALTER TABLE "contact" ADD FOREIGN KEY ("person_id") REFERENCES "person" ("id");
+
+ALTER TABLE "parent" ADD FOREIGN KEY ("person_id") REFERENCES "person" ("id");
+
+ALTER TABLE "employee" ADD FOREIGN KEY ("person_id") REFERENCES "person" ("id");
+
+ALTER TABLE "teacher" ADD FOREIGN KEY ("person_id") REFERENCES "person" ("id");
+
+ALTER TABLE "student" ADD FOREIGN KEY ("person_id") REFERENCES "person" ("id");
+
+ALTER TABLE "grade" ADD FOREIGN KEY ("student_id") REFERENCES "person" ("id");
+
+ALTER TABLE "grade" ADD FOREIGN KEY ("id") REFERENCES "student" ("grade_id");
+
+CREATE INDEX "user_type" ON "person" ("user_type");
+
+CREATE UNIQUE INDEX ON "person" ("first_name");
+
+COMMENT ON COLUMN "person"."id_number" IS 'This can be LRN , EID';
+
+COMMENT ON COLUMN "person"."picture" IS 'File location';
+
+COMMENT ON COLUMN "student"."grade_id" IS 'changes every year';
+
+COMMIT;
