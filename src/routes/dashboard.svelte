@@ -1,11 +1,16 @@
 <svelte:head>
 	<title>Dashboard</title>
 </svelte:head>
-
 <script>
-  import { setClient } from 'svelte-apollo';
-  import { client } from './_apollo';
+import { onMount } from 'svelte';
+import { setClient } from 'svelte-apollo';
+import { client } from './_apollo';
+  
+//onMount(async () => {
   setClient(client);
+//});
+
+
   import Test from '../components/Test.svelte';
 
 </script>

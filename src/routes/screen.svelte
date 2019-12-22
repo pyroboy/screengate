@@ -1,20 +1,17 @@
-
 <script>
-  
-  console.log("rat");
-  import "bulma/css/bulma.css";
   import moment from "moment";
- import { onMount } from 'svelte';
+  import { onMount } from "svelte";
 
   onMount(() => {
-    const update = () =>{
-    document.getElementById("now").innerHTML = moment().format("h:mm:ss");
-    document.getElementById("period").innerHTML = moment().format("A");
-};
-  setInterval(update, 30);
-
-   });
-
+    const update = () => {
+      var element = document.getElementById("now");
+      if (typeof element != "undefined" && element != null) {
+        document.getElementById("now").innerHTML = moment().format("h:mm:ss");
+        document.getElementById("period").innerHTML = moment().format("A");
+      }
+    };
+    setInterval(update, 100);
+  });
 
   let genders = ["women", "men"];
   let gender = genders[Math.floor(Math.random() * 2)];
@@ -85,9 +82,9 @@
     flex-direction: column;
   }
   .space-group {
-      display: flex;
+    display: flex;
     justify-content: space-between;
-      flex-direction: column;
+    flex-direction: column;
   }
   .center-box {
     background-color: #f5f5f5;
@@ -105,90 +102,87 @@
   }
 </style>
 
+<section class="hero is-fullheight">
+  <div class=" grid">
 
-  <section class="hero is-fullheight">
-    <div class=" grid">
+    <div class="column">
+      <div
+        id="header"
+        class="column"
+        style="background-color: coral; align-items: center;">
 
-        <div class="column">
-          <div
-            id="header"
-            class="column"
-            style="background-color: coral; align-items: center;">
-
-            <div class="columns is-mobile is-multiline is-gapless">
-              <div class="column is-narrow is-paddingless">
-                <figure class="image is-64x64">
-                  <img
-                    src="https://i.pinimg.com/474x/a3/4e/ef/a34eef6b581ad41202b0abdeacddfb84--school-logo-random-thoughts.jpg"
-                    alt="" />
-                </figure>
-              </div>
-              <div class="column is-narrow">
-                <p
-                  class="title notification"
-                  style="font-size: 1rem;background: none;">
-                  TITLE
-                </p>
-              </div>
-            </div>
+        <div class="columns is-mobile is-multiline is-gapless">
+          <div class="column is-narrow is-paddingless">
+            <figure class="image is-64x64">
+              <img
+                src="https://i.pinimg.com/474x/a3/4e/ef/a34eef6b581ad41202b0abdeacddfb84--school-logo-random-thoughts.jpg"
+                alt="" />
+            </figure>
           </div>
-
-          <div
-            class="columns is-mutliline is-mobile is-marginless is-gapless"
-            id="layout">
-            <div class="column is-4">
-              <div
-                class="columns is-mutliline is-mobile is-gapless"
-                id="picture-id">
-                <div class="column is-hard-right is-hard-bottom">
-                  <div class="notification " id="picture">
-                    <figure class="image is-1by1">
-                      <img
-                        src="https://randomuser.me/api/portraits/{gender}/{randomNumber}.jpg" 
-                        alt="rat"/>
-                    </figure>
-                  </div>
-
-                </div>
-                <div class="column is-hard-bottom is-hard-top-landscape">
-                  <p class="center-box subtitle is-3" id="id-number">
-                    10-00234
-                  </p>
-                </div>
-
-              </div>
-
-            </div>
-
-            <div class="column space-group">
-              <div class="column is-paddingless">
-                <p class="center-box title is-3 is-marginless">
-                  Arturo Jose T. Magnoaaaa
-                </p>
-              </div>
-              <div class="notification is-marginless">
-                <div class="columns is-multiline is-mobile">
-                  <div class="column is-narrow">
-                    <p id="now" class="title" style="font-size: 5rem;"></p>
-                  </div>
-                  <div class="column is-narrow">
-                    <p id="period" class="title is-1" />
-                  </div>
-                </div>
-              </div>
-              <div class="columns is-multiline is-mobile is-gapless">
-                <div class="column is-hard-right">
-                  <p class="center-box is-primary has-text-centered">IN</p>
-                </div>
-                <div class="column is-hard-left">
-                  <p class="center-box is-primary has-text-centered">OUT</p>
-                </div>
-              </div>
-
-            </div>
-
+          <div class="column is-narrow">
+            <p
+              class="title notification"
+              style="font-size: 1rem;background: none;">
+              TITLE
+            </p>
           </div>
         </div>
       </div>
- 
-  </section>
+
+      <div
+        class="columns is-mutliline is-mobile is-marginless is-gapless"
+        id="layout">
+        <div class="column is-4">
+          <div
+            class="columns is-mutliline is-mobile is-gapless"
+            id="picture-id">
+            <div class="column is-hard-right is-hard-bottom">
+              <div class="notification " id="picture">
+                <figure class="image is-1by1">
+                  <img
+                    src="https://randomuser.me/api/portraits/{gender}/{randomNumber}.jpg"
+                    alt="rat" />
+                </figure>
+              </div>
+
+            </div>
+            <div class="column is-hard-bottom is-hard-top-landscape">
+              <p class="center-box subtitle is-3" id="id-number">10-00234</p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="column space-group">
+          <div class="column is-paddingless">
+            <p class="center-box title is-3 is-marginless">
+              Arturo Jose T. Magnoaaaa
+            </p>
+          </div>
+          <div class="notification is-marginless">
+            <div class="columns is-multiline is-mobile">
+              <div class="column is-narrow">
+                <p id="now" class="title" style="font-size: 5rem;" />
+              </div>
+              <div class="column is-narrow">
+                <p id="period" class="title is-1" />
+              </div>
+            </div>
+          </div>
+          <div class="columns is-multiline is-mobile is-gapless">
+            <div class="column is-hard-right">
+              <p class="center-box is-primary has-text-centered">IN</p>
+            </div>
+            <div class="column is-hard-left">
+              <p class="center-box is-primary has-text-centered">OUT</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</section>

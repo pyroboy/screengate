@@ -10,3 +10,4 @@ rat
 node_modules
 scanserver.py
 websocketconnect.py
+/z_files/
