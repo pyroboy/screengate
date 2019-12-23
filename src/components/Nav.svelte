@@ -18,6 +18,15 @@
             Add
           </a>
         </li>
+
+                <li>
+          <a href="test" class="">
+            <span class="icon">
+              <i class="fa fa-table" />
+            </span>
+            Test
+          </a>
+        </li>
         <li>
           <a href="screen" class="">
             <span class="icon">

@@ -10,7 +10,7 @@ console.log("rat");
 	onMount(async () => {
 console.log("ratmount")
   });
-  import {gql} from 'apollo-boost';
+
 
   const SCANS = gql`
 {

@@ -2,7 +2,6 @@
 <script>
   import { getClient, query , subscribe }from "svelte-apollo";
   const client = getClient();
-  import { gql } from "apollo-boost";
   let scans = query(client, { query: SCANS });
   let new_scans = subscribe(client, { query: NEW_SCANS });
   
