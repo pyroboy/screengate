@@ -6,10 +6,13 @@ import commonjs from "rollup-plugin-commonjs";
 import svelte from "rollup-plugin-svelte";
 import babel from "rollup-plugin-babel";
 import { terser } from "rollup-plugin-terser";
+import typescript from "rollup-plugin-typescript2"
+import typescriptCompiler from "typescript"
 import config from "sapper/config/rollup.js";
 import pkg from "./package.json";
 import postcss from "rollup-plugin-postcss";
 import sveltePreprocess from 'svelte-preprocess'
+
 
 const mode = process.env.NODE_ENV;
 const dev = mode === "development";
@@ -19,8 +22,10 @@ const onwarn = (warning, onwarn) =>
   (warning.code === "CIRCULAR_DEPENDENCY" &&
     /[/\\]@sapper[/\\]/.test(warning.message)) ||
   onwarn(warning);
+
 const dedupe = importee =>
   importee === "svelte" || importee.startsWith("svelte/");
+
 const aliases = () => ({
   resolve: [".svelte", ".js", ".scss", ".css"],
   entries: [
@@ -41,6 +46,7 @@ const aliases = () => ({
     }
   ]
 });
+
 const postcssOptions = () => ({
   extensions: [".scss", ".sass"],
   extract: false,

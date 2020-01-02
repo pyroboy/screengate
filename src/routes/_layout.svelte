@@ -1,28 +1,18 @@
 <script>
 	//import Nav from '../components/Nav.svelte';
 	//export let segment;
-  import "bulma/css/bulma.css";
+ // import "bulma/css/bulma.css";
+ import "@loadingio/loading.css/dist/loading.min.css"
   import Tailwindcss from '../Tailwindcss.svelte';
 </script>
 
 <!--
 <Nav {segment}/>
 -->
-  <nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <div class="navbar-item">
-        <img
-          src="https://bulma.io/images/bulma-logo.png"
-          alt="Bulma: Free, open source, and modern CSS framework based on
-          Flexbox"
-          width="112"
-          height="28" />
-      </div>
-
-    </div>
-  </nav>
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/tailwindcss@1.1.4/dist/tailwind.css">
+<Tailwindcss />
 
 <main>
-<Tailwindcss />
+
 	<slot></slot>
 </main>

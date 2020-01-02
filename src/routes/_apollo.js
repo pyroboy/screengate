@@ -6,7 +6,7 @@ import { HttpLink } from "apollo-link-http";
 import { getMainDefinition } from "apollo-utilities";
 import fetch from "isomorphic-fetch"
 
-const headers = { 'content-type': 'application/json' };
+const headers = { 'content-type': 'application/json' , 'x-hasura-admin-secret':'1234' };
 const getHeaders = () => {
   return headers;
 };
@@ -14,7 +14,7 @@ const getHeaders = () => {
 const cache = new InMemoryCache();
 
 const wsLink = process.browser ? new WebSocketLink({
-  uri: "wss://hasura-midcodes1.herokuapp.com/v1/graphql",
+  uri: "wss://hasura-gate.herokuapp.com/v1/graphql",
   options: {
     reconnect: true,
     lazy: true,
@@ -26,7 +26,7 @@ const wsLink = process.browser ? new WebSocketLink({
 
 
 const httpLink = new HttpLink({
-  uri: "https://hasura-midcodes1.herokuapp.com/v1/graphql",
+  uri: "https://hasura-gate.herokuapp.com/v1/graphql",
   fetch,
   headers: getHeaders()
 });

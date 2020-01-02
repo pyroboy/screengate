@@ -1,8 +1,12 @@
 <script>
   import moment from "moment";
   import { onMount } from "svelte";
+  import { setClient, subscribe } from "svelte-apollo";
+  import { client } from "./_apollo";
+   import { NEW_SCANS , ANOMALY } from "./_queries";
 
   onMount(() => {
+    setClient(client);
     const update = () => {
       var element = document.getElementById("now");
       if (typeof element != "undefined" && element != null) {
@@ -16,173 +20,60 @@
   let genders = ["women", "men"];
   let gender = genders[Math.floor(Math.random() * 2)];
   let randomNumber = Math.floor(Math.random() * 80);
+
+  const new_scans = subscribe(client, { query: NEW_SCANS });
+  const anomaly = subscribe(client, { query: ANOMALY });
 </script>
 
-<style>
-  .grid {
-    display: grid !important;
-    grid-template-columns: 1fr minmax(0, 90%) 1fr;
-    padding-top: 5%;
-    margin-bottom: auto;
-    height: 100vh;
-    background-color: dimgray;
-  }
+<div class="mx-auto bg-gray-700 h-screen flex items-center justify-center px-8">
 
-  #header {
-    max-height: 20vh;
-  }
+  <div
+    class="flex flex-col w-full bg-gray-100 rounded-lg shadow-lg sm:w-3/4
+    md:w-1/2 lg:w-3/5 relative">
+    <!-- <div class="bg-gray-600 w-full">
 
-  .grid * {
-    grid-column: 2/3;
-  }
+      <img
+        class="h-16 w-16"
+        src="https://i.pinimg.com/474x/a3/4e/ef/a34eef6b581ad41202b0abdeacddfb84--school-logo-random-thoughts.jpg"
+        alt="" />
+    </div> -->
+    <div class="flex flex-col w-full md:flex-row">
+  
+      <div class="flex lg:w-1/3 md:w-full md:mx-auto shadow-md">
+        <img
+          class="rounded-lg w-64"
+          src="https://randomuser.me/api/portraits/{gender}/{randomNumber}.jpg"
+          alt="rat" />
 
-  @media only screen and (max-width: 600px) {
-    #header {
-      background-color: lightblue !important;
-    }
-  }
-  /* Portrait */
-  @media only screen and (max-width: 768px) {
-    #picture-id {
-      flex-direction: row !important;
-    }
-    #layout {
-      flex-direction: column !important;
-    }
-    #now {
-      font-size: 3rem !important;
-    }
-    #period {
-      font-size: 2rem !important;
-    }
-  }
-  @media screen and (orientation: portrait) {
-    .is-4 {
-      width: 100% !important;
-    }
-    #id-number {
-      font-size: 1rem !important;
-    }
-  }
-
-  @media screen and (orientation: landscape) {
-    #picture-id {
-      flex-direction: column !important;
-    }
-    #layout {
-      flex-direction: row !important;
-    }
-    .grid {
-      padding-top: 1%;
-      grid-template-columns: 1fr minmax(0, 98%) 1fr;
-    }
-  }
-
-  #picture-id {
-    flex-direction: column;
-  }
-  .space-group {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-  }
-  .center-box {
-    background-color: #f5f5f5;
-    color: #7a7a7a;
-    padding: 1.25rem 0;
-    position: relative;
-    text-align: center;
-    min-height: 100%;
-    overflow-y: auto;
-    align-self: flex-end;
-  }
-
-  .is-fullheight {
-    min-height: 100vh;
-  }
-</style>
-
-<section class="hero is-fullheight">
-  <div class=" grid">
-
-    <div class="column">
-      <div
-        id="header"
-        class="column"
-        style="background-color: coral; align-items: center;">
-
-        <div class="columns is-mobile is-multiline is-gapless">
-          <div class="column is-narrow is-paddingless">
-            <figure class="image is-64x64">
-              <img
-                src="https://i.pinimg.com/474x/a3/4e/ef/a34eef6b581ad41202b0abdeacddfb84--school-logo-random-thoughts.jpg"
-                alt="" />
-            </figure>
-          </div>
-          <div class="column is-narrow">
-            <p
-              class="title notification"
-              style="font-size: 1rem;background: none;">
-              TITLE
-            </p>
-          </div>
-        </div>
       </div>
+      <div class="flex content-center flex-col content-center w-full ml-3 pt-6">
+        <div class=" ml-3">
 
-      <div
-        class="columns is-mutliline is-mobile is-marginless is-gapless"
-        id="layout">
-        <div class="column is-4">
-          <div
-            class="columns is-mutliline is-mobile is-gapless"
-            id="picture-id">
-            <div class="column is-hard-right is-hard-bottom">
-              <div class="notification " id="picture">
-                <figure class="image is-1by1">
-                  <img
-                    src="https://randomuser.me/api/portraits/{gender}/{randomNumber}.jpg"
-                    alt="rat" />
-                </figure>
-              </div>
-
-            </div>
-            <div class="column is-hard-bottom is-hard-top-landscape">
-              <p class="center-box subtitle is-3" id="id-number">10-00234</p>
-            </div>
-
-          </div>
+          <h1 class="text-6xl text-gray-800 " style="margin-bottom:-.7rem">
+          {#await $new_scans}
+            Load.
+            {:then result}
+            {result.data.scan_bio[0].bio.full_name}
+            {/await}
+          </h1>
+          <p class="w-full text-4xl pl-10 text-gray-700 pb-8">
+           {#await $anomaly}
+            Load.
+            {:then result}
+            {result.data.scan_anomaly[0].data}
+            {/await}
+          </p>
+          <div class=" font-normal text-gray-800" />
 
         </div>
-
-        <div class="column space-group">
-          <div class="column is-paddingless">
-            <p class="center-box title is-3 is-marginless">
-              Arturo Jose T. Magnoaaaa
-            </p>
-          </div>
-          <div class="notification is-marginless">
-            <div class="columns is-multiline is-mobile">
-              <div class="column is-narrow">
-                <p id="now" class="title" style="font-size: 5rem;" />
-              </div>
-              <div class="column is-narrow">
-                <p id="period" class="title is-1" />
-              </div>
-            </div>
-          </div>
-          <div class="columns is-multiline is-mobile is-gapless">
-            <div class="column is-hard-right">
-              <p class="center-box is-primary has-text-centered">IN</p>
-            </div>
-            <div class="column is-hard-left">
-              <p class="center-box is-primary has-text-centered">OUT</p>
-            </div>
-          </div>
-
-        </div>
-
       </div>
     </div>
-  </div>
 
-</section>
+  </div>
+  <div class="absolute left-0 bottom-0">
+    <div class="text-4xl text-gray-600 py-2 px-6">
+      OUT
+      <p id="now" class="inline text-base" />
+    </div>
+  </div>
+</div>
