@@ -46,7 +46,7 @@
     "svelte-table": "^0.1.5",
     "toastr": "^2.1.4",
     "validatorjs": "^3.18.1",
-    "ws": "^7.2.0"
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
