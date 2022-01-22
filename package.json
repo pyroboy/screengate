@@ -30,7 +30,7 @@
     "graphql-tools": "^4.0.6",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.24.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "now-sapper": "^0.36.0",
     "polka": "next",
     "react-toastify": "^5.4.1",
